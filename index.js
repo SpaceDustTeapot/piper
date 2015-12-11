@@ -54,9 +54,9 @@ function handleClick(state)
 {
  //tabs.open("https://www.mozilla.org/");
 // findthr.WhatIsTab(tabs[0].url); 
- findthr.WhatIsTab(tabs.activeTab.url);
+ //findthr.WhatIsTab(tabs.activeTab.url);
 //console.log(tabs[0].url);
- 
+ findthr.findThreadID(tabs.activeTab.url);
 }
 
 
@@ -69,7 +69,8 @@ function get_tabnames()
 
 var id = setInterval(function() {
 //does something every five seconds
-findthr.WhatIsTab(tabs.activeTab.url);
+//TEMPARLY disabled
+//findthr.WhatIsTab(tabs.activeTab.url);
 
-},5000);
+},10000);
 //5 secons = 5000
