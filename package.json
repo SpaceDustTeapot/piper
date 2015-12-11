@@ -1,0 +1,15 @@
+{
+  "title": "Piper",
+  "name": "piper",
+  "version": "0.0.1",
+  "description": "Pipes a video URL into a mediaplayer or file.",
+  "main": "index.js",
+  "author": "SpaceDustTeapot",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "GPLv2",
+  "keywords": [
+    "jetpack"
+  ]
+}
