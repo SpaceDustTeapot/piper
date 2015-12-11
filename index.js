@@ -1,4 +1,5 @@
 var findthr = require("./data/findThreadID.js");
+var {setInterval,clearInterval} = require("sdk/timers");
 //var self = require('sdk/self');
 
 // a dummy function, to show how tests work.
@@ -52,7 +53,8 @@ icon: {
 function handleClick(state)
 {
  //tabs.open("https://www.mozilla.org/");
- findthr.WhatIsTab(tabs[0].url); 
+// findthr.WhatIsTab(tabs[0].url); 
+ findthr.WhatIsTab(tabs.activeTab.url);
 //console.log(tabs[0].url);
  
 }
@@ -63,3 +65,11 @@ function get_tabnames()
   //alert(tabs[0].url);
 
 }
+
+
+var id = setInterval(function() {
+//does something every five seconds
+findthr.WhatIsTab(tabs.activeTab.url);
+
+},5000);
+//5 secons = 5000

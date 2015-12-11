@@ -2,10 +2,12 @@
 exports.findThreadID = function (TabID)
 {
   var Len = TabID.len;
- 
+  var ltemp; 
+
  for(var i =0;i<Len;i++)
 {
-   TabID.substr(i,3);
+   ltemp = TabID.substr(i,3);
+   
 
 }
 
