@@ -25,7 +25,7 @@ exports.findThreadID = function (TabID)
       }
     }
      console.log("THREADID? "+ TabID.substr(i,Diff));
-     return TabID.substr(i,Diff));
+     return TabID.substr(i,Diff);
    }
 
 }
@@ -55,8 +55,17 @@ console.log("INFUCKING FUNCTION");
   	 if(check == "youtube")
    	{
    	 console.log("in Youtube");
-   	 console.log("Returning 3");
-   	 return 3;
+   	 console.log("Returning 3 if watch exists");
+	 	for(var count=0;count<Len;count++)
+		{
+		 var chock = TabID.substr(count,5);
+		console.log("Chock is " + chock);
+		 if(chock == "watch")
+		 {
+		   return 3;
+		 }
+		}
+   	 //return 3;
   	 }
    } 
  }

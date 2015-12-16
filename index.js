@@ -1,3 +1,16 @@
+var{Cu,Cc,Ci} = require("chrome");
+
+Cu.import("resource://gre/modules/FileUtils.jsm");
+Cu.import("resource://gre/modules/NetUtil.jsm");
+//dataconverter
+var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
+converter.charset = "UTF-8";
+var file = FileUtils.getFile("ProfD",["data.txt"]);
+//var ostream  = FileUtils.openSafeFileOutputStream(file);
+
+//writer
+var writer = require("./data/writeFile.js");
+
 var findthr = require("./data/findThreadID.js");
 var {setInterval,clearInterval} = require("sdk/timers");
 //var self = require('sdk/self');
@@ -56,7 +69,36 @@ function handleClick(state)
 // findthr.WhatIsTab(tabs[0].url); 
  //findthr.WhatIsTab(tabs.activeTab.url);
 //console.log(tabs[0].url);
- findthr.findThreadID(tabs.activeTab.url);
+ //findthr.findThreadID(tabs.activeTab.url);
+ var returned_val = findthr.WhatIsTab(tabs.activeTab.url);
+ if(returned_val == 0)
+  {
+   console.log("Either error or not one of the acceptable sites");
+  }
+ else if(returned_val == 1)
+  {
+	//do something
+  }
+ else if(returned_val == 2)
+ {
+
+ }
+ else if(returned_val == 3)
+ {
+ var ostream  = FileUtils.openSafeFileOutputStream(file);  
+ console.log("valid youtube URL");
+  //TODO: CHANGE mpv if settings isn't mpv
+  var cmd_string = "mpv " + tabs.activeTab.url;
+  //Push cmd_string to a file
+  console.log("What is CMD_String? " + cmd_string);
+  var cdstring = converter.convertToInputStream(cmd_string);
+ // cdstring.available();
+  //console.log("And CD string? " + cdstring);
+  writer.writeToFile(cdstring,ostream,NetUtil);  
+ // cdstring.close();
+ 
+ }
+
 }
 
 
