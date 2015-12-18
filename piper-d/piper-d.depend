@@ -1,14 +1,32 @@
 # depslib dependency file v1.0
-1450376361 source:/home/spacedustteapot/Documents/Nodejs/piper/piper-d/main.cpp
+1450405547 source:/home/spacedustteapot/Documents/Nodejs/piper/piper-d/main.cpp
 	<iostream>
 	"include/piperdaemon.h"
+	<sys/types.h>
+	<sys/stat.h>
+	<stdio.h>
+	<stdlib.h>
+	<fcntl.h>
+	<errno.h>
+	<unistd.h>
+	<syslog.h>
+	<string.h>
 
-1450376361 /home/spacedustteapot/Documents/Nodejs/piper/piper-d/include/piperdaemon.h
+1450408534 /home/spacedustteapot/Documents/Nodejs/piper/piper-d/include/piperdaemon.h
 	<iostream>
 	<unistd.h>
 	<fstream>
 	<stdlib.h>
+	<sys/types.h>
+	<sys/wait.h>
+	<sys/stat.h>
+	<stdio.h>
+	<stdlib.h>
+	<fcntl.h>
+	<errno.h>
+	<syslog.h>
+	<string.h>
 
-1450376965 source:/home/spacedustteapot/Documents/Nodejs/piper/piper-d/src/piperdaemon.cpp
+1450451589 source:/home/spacedustteapot/Documents/Nodejs/piper/piper-d/src/piperdaemon.cpp
 	"../include/piperdaemon.h"
 
