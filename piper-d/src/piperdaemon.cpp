@@ -4,6 +4,70 @@ piperdaemon::piperdaemon()
 {
     //ctor
     firstLoad = 0;
+    for(int i=0;i<255;i++)
+    {
+     Lastcommand[i] = "333333";
+     tokens[i] = "333333";
+    }
+}
+
+bool piperdaemon::Create_Settingsfolder()
+{
+std::string home = getenv("HOME");
+std::cout<<"HOME: "<<home<<std::endl;
+std::string setfol = home + "/.piper-d";
+setting = setfol;
+ mkdir(setfol.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
+ return true;
+
+}
+
+bool piperdaemon::Find_Lastcommand()
+{
+ std::string loconf = setting + "/lastcmd.conf";
+ std::ifstream file(loconf);
+ if(file.is_open())
+ {
+  //file open;
+  char c;
+  std::string buf="";
+  while(file.get(c))
+  {
+   buf = buf + c;
+
+  }
+   putoldtoke(buf);
+
+    return true;
+ }
+ else
+ {
+
+
+  return false;
+ }
+
+}
+
+bool piperdaemon::cmp_tokes()
+{
+ if(tokens[1] == Lastcommand[1])
+ {
+ std::cout<<"tokens are the same;"<<std::endl;
+   return false;
+
+ }
+ std::cout<<"Tokens[1]: "<<tokens[2]<<" "<<"Lastcommand[1]"<<Lastcommand[1]<<std::endl;
+  return true;
+}
+
+bool piperdaemon::Save_Lastcommand()
+{
+ std::string loconf = setting + "/lastcmd.conf";
+  std::ofstream file(loconf);
+  file << tokens[0]<<" "<<tokens[1];
+  file.close();
+ return true;
 }
 
 void piperdaemon::Start()
@@ -20,20 +84,30 @@ void piperdaemon::Start()
  //c fork dies after its played
 
 //file_exists();
+//create Settings folder
+Create_Settingsfolder();
+long ProgID = getpid();
+save_pid(ProgID);
+std::cout<<"progID: "<<ProgID<<std::endl;
 syslog(LOG_USER,"%s","In Start()");
-
+syslog(LOG_USER,"%s","meems");
  find_Profile();
+ Find_Lastcommand();
 
  //std::cout<<"in file exists"<<std::endl;
   bool file_exist = file_exists();
-   if(file_exist == 1)
+   load_file();
+  std::cout<<"File_Exists"<<std::endl;
+   bool same_cmd = cmp_tokes();
+   std::cout<<"same_cmd is? "<<same_cmd<<std::endl;
+   if(file_exist == 1 && same_cmd == 1)
    {
      //call real loop
      syslog(LOG_USER,"%s","The File data.txt exists");
      Loop();
 
    }
-   else if(file_exist == 0)
+   else if(file_exist == 0 || same_cmd == 0)
    {
    syslog(LOG_USER,"%s","Gunna sleep for 5 seconds and check for data.txt again");
    //std::cout<<"going sleep nightnight"<<std::endl;
@@ -51,22 +125,23 @@ void piperdaemon::Loop()
 {
 //Lets get it to espeak :^)
 syslog(LOG_USER,"%s","Loading file");
- load_file();
+// load_file();
     if(firstLoad == 0)
     {
         firstLoad = 1;
         //FORK
         //more like forkbomb.....
      syslog(LOG_USER,"%s","Creating fork");
+     signal(SIGINT,sigint_handler);
         pid = fork();
 
         if(pid == 0)
         {
         //Child
-        syslog(LOG_USER,"%s","Child of daemon is about to execute");
+        //syslog(LOG_USER,"%s","Child of daemon is about to execute");
             cmdExecute();
         //kill self after
-            exit(EXIT_SUCCESS);
+            //exit(EXIT_SUCCESS);
         }
         else if(pid >0)
         {
@@ -77,7 +152,7 @@ syslog(LOG_USER,"%s","Loading file");
             //1min
             //sleep(60);
             int status;
-//            waitpid(pid,&status, 0);
+            waitpid(pid,&status, 0);
         }
         else
         {
@@ -303,6 +378,50 @@ syslog(LOG_USER,"%s","Opening data.txt");
 }
 
 
+//Gotta stream line this code ._.
+std::string piperdaemon::putoldtoke(std::string str)
+{
+  size_t len = str.length();
+ std::string buff = "";
+ int counta =0;
+  for(size_t i=0;i<len;i++)
+  {
+    std::string temp = str.substr(i,1);
+    if(temp == " ")
+    {
+            Lastcommand[counta] = buff;
+            counta = counta + 1;
+            buff = "";
+
+    }
+    else
+    {
+     buff = buff + temp;
+     //std::cout<<"Buff is: "<<buff<<std::endl;
+     size_t k = len - 1;
+     if(i == k)
+     {
+      Lastcommand[counta] = buff;
+            counta = counta + 1;
+            buff = "";
+
+     }
+    }
+
+  }
+
+  for(int l=0;l<counta;l++)
+  {
+  //std::cout<<"Toke["<<l<<"]: "<<tokens[l]<<std::endl;
+
+  }
+  //should be a void tbh fam
+  return "pace";
+
+}
+
+
+
 std::string piperdaemon::commandtoke(std::string str)
 {
  size_t len = str.length();
@@ -349,15 +468,33 @@ void piperdaemon::cmdExecute()
  syslog(LOG_USER,"%s","starting to execute");
  if(tokens[0] == "mpv")
  {
-    Command = "/usr/bin/" + tokens[0];
 
+  Save_Lastcommand();
+    Command = "/usr/bin/" + tokens[0];
+   // Command = tokens[0] +" "+ tokens[1];
     syslog(LOG_USER,"%s",Command.c_str());
     syslog(LOG_USER,"%s",tokens[1].c_str());
     //+ " " + tokens[1];
-    //std::system(Command.c_str());
-    putenv("DISPLAY=:0");
-   execl(Command.c_str(),tokens[1].c_str());
+   // std::system(Command.c_str());
+  //  putenv("DISPLAY=:0");
+//  execl(Command.c_str(),tokens[1].c_str());
   // execle(Command.c_str(),tokens[0].c_str(),tokens[1].c_str(),NULL,getenv("DISPLAY"));
-  // execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
+   execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
  }
+}
+
+void piperdaemon::sigint_handler(int sig)
+{
+ syslog(LOG_USER,"%s","CHILDpid: "+getpid());
+ syslog(LOG_USER,"%s","ADULTPID: "+getppid());
+
+}
+
+void piperdaemon::save_pid(long IDpid)
+{
+ std::string save = setting + "/pid";
+ std::ofstream file(save);
+file<<IDpid;
+file.close();
+
 }

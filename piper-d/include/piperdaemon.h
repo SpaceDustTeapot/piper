@@ -23,11 +23,18 @@ class piperdaemon
         void Start();
         void Loop();
         bool file_exists();
+        bool Create_Settingsfolder();
         bool load_file();
         std::string token(std::string str);
         std::string commandtoke(std::string str);
+        std::string putoldtoke(std::string str);
         bool find_Profile();
         void cmdExecute();
+       static void sigint_handler(int sig);
+       bool Find_Lastcommand();
+       bool Save_Lastcommand();
+       bool cmp_tokes();
+       void save_pid(long IDpid);
 
     protected:
     private:
@@ -41,7 +48,9 @@ class piperdaemon
    // std::ifstream DFile;
     std::string Profile_Loc;
     std::string Datafile_Loc;
+    std::string setting;
     std::string tokens[255];
+    std::string Lastcommand[255];
     int tokeptr;
     std::string has;
     bool firstLoad;

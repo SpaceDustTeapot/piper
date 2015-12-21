@@ -25,7 +25,7 @@ int main()
 innit_log();
 /*daemon backbone */
     //Process ID and session ID
-    pid_t Pid,Sid;
+   /* pid_t Pid,Sid;
 
     //Fork off current process
     Pid = fork();
@@ -35,21 +35,21 @@ innit_log();
      //fail forking
      exit(EXIT_FAILURE);
 
-    }
+    }*/
 
     //Good pid
-    if(Pid > 0)
+    /*if(Pid > 0)
     {
      exit(EXIT_SUCCESS);
 
-    }
+    }*/
     //change file mode
-    umask(0);
+  //  umask(0);
 
     //log supposed to go here
 
     // create new SID for child
-    Sid = setsid();
+    /*Sid = setsid();
 
     if(Sid<0)
     {
@@ -64,26 +64,26 @@ innit_log();
         exit(EXIT_FAILURE);
 
     }
-
+*/
     //Close standered in,out and err
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+    //close(STDIN_FILENO);
+    //close(STDOUT_FILENO);
+    //close(STDERR_FILENO);
 
 
     syslog(LOG_USER,"%s","starting piper-d");
 
     //infinanted daemon loop
 
-    while(1)
-    {
+//    while(1)
+  //  {
     //std::cout<<"starting piper-d"<<std::endl;
     piperdaemon pd;
     pd.Start();
-    sleep(30);
-    }
+   // sleep(30);
+   // }
 
     closelog();
 
-     exit(EXIT_SUCCESS);
+     //exit(EXIT_SUCCESS);
 }

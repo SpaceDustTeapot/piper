@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1450658330 source:/home/spacedustteapot/Documents/Nodejs/piper/chear/src/Chear.cpp
+	"../include/Chear.h"
+
+1450658070 /home/spacedustteapot/Documents/Nodejs/piper/chear/include/Chear.h
+	<sys/types.h>
+	<dirent.h>
+	<errno.h>
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<stdio.h>
+
+1450657526 source:/home/spacedustteapot/Documents/Nodejs/piper/chear/main.cpp
+	<iostream>
+	"include/Chear.h"
+

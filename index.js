@@ -73,7 +73,7 @@ function handleClick(state)
  var returned_val = findthr.WhatIsTab(tabs.activeTab.url);
  if(returned_val == 0)
   {
-   console.log("Either error or not one of the acceptable sites");
+   //console.log("Either error or not one of the acceptable sites");
   }
  else if(returned_val == 1)
   {
