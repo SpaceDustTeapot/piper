@@ -18,7 +18,7 @@ void Chear::checkforPid()
     {
     //  std::system("piper-d");
     //std::cout<<"WrittenPID is null ._."<<std::endl;
-     return;
+    // return;
     }
     else
     {
@@ -34,7 +34,7 @@ void Chear::checkforPid()
     std::cout<<"Not Running"<<std::endl;
     std::cout<<"So Start"<<std::endl;
      std::system("piper-d");
-     return;
+     //return;
     }
     else
     {
@@ -42,6 +42,8 @@ void Chear::checkforPid()
 
     }
 
+
+    //checkforPid();
 }
 
 std::string Chear::GrabfilePID(std::string str)
