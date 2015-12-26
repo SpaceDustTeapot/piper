@@ -63,7 +63,7 @@ ebin.Item({
 			' self.postMessage(node.href);' +
 			' return true;'+
 			' });',
-
+//	image: "./icon-64.png",
 	onMessage: function(linksauce)
 	{
 		console.log("Linksauce is:" + linksauce);
@@ -119,7 +119,7 @@ ebin.Item({
 //declares button as buttons.action with the following atributes
 var button = buttons.ActionButton({
 id: "Mozilla-link",
-label: "Visit Mozilla",
+label: "Pipe to mediaplayer",
 icon: {
  "16" : "./icon-16.png",
  "32" : "./icon-32.png",
