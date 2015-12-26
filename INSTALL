@@ -1,0 +1,13 @@
+========================HOW TO INSTALL ======================================
+1) Install mpv(http://mpv.io licenced: GPLv2) or vlc(http://videolan.org licenced: GPLv2) and install youtube-dl(https://rg3.github.io/youtube-dl  Licenced: PD/Unlicenced)
+2) If on linux install Build-essentials and Code::Blocks (TODO: Write a makefile)
+3) Download piper from https://github.com/SpaceDustTeapot/piper
+4) Open up the 'chear' project file and build
+5) open up the 'piper-d' project file and build
+6) run install.sh. This will install chear and piper-d to /usr/local/bin
+7) set up a cronjob. If you have never set up a cronjob before. open terminal into the piper folder 
+   and type without quotes "crontab << cronbk" else just add whats in cronbk to your current script
+   WARNING: crontab << cronbk WILL OVERWRITE ANY CRONJOBS CURRENTLY SETUP
+8) Go to addons page and install the xpi
+
+	and Voila your up and ready to go :^)  
