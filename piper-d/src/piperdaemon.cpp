@@ -13,9 +13,15 @@ piperdaemon::piperdaemon()
 
 bool piperdaemon::Create_Settingsfolder()
 {
+ #if _WIN32
+  std::string home = getenv("APPDATA");
+  std::cout<<"HOME: "<<home<<std::endl;
+  std::string setfol = home + "\\.piper-d";
+ #else
 std::string home = getenv("HOME");
 std::cout<<"HOME: "<<home<<std::endl;
 std::string setfol = home + "/.piper-d";
+#endif
 setting = setfol;
  mkdir(setfol.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
  return true;
@@ -24,7 +30,12 @@ setting = setfol;
 
 bool piperdaemon::Find_Lastcommand()
 {
+ #if _WIN32
+ std::string loconf = setting + "\\lastcmd.conf";
+ #else
  std::string loconf = setting + "/lastcmd.conf";
+ #endif
+
  std::ifstream file(loconf);
  if(file.is_open())
  {
@@ -63,7 +74,11 @@ bool piperdaemon::cmp_tokes()
 
 bool piperdaemon::Save_Lastcommand()
 {
+#if _WIN32
+ std::string loconf = setting + "\\lastcmd.conf";
+#else
  std::string loconf = setting + "/lastcmd.conf";
+#endif
   std::ofstream file(loconf);
   file << tokens[0]<<" "<<tokens[1];
   file.close();
@@ -184,10 +199,15 @@ bool piperdaemon::file_exists()
 //WOO getenv works :3
 std::string mozpath;
 std::string path;
-mozpath = getenv("HOME");
+#if _WIN32
+mozpath = getenv("APPDATA");
 //std::cout<<"Path is "<<path<<std::endl;
-path = Profile_Loc + "/data.txt";
+path = Profile_Loc + "\\data.txt";
 //std::cout<<path<<std::endl;
+#else
+mozpath = getenv("HOME");
+path = Profile_Loc + "/data.txt";
+#endif
  std::ifstream dFile(path);
  if(dFile.is_open())
   {
@@ -223,9 +243,15 @@ bool piperdaemon::find_Profile()
 syslog(LOG_USER,"%s","In find Profile()");
  std::string mozpath;
 std::string path;
-mozpath = getenv("HOME");
+#if _WIN32
+mozpath = getenv("APPDATA");
 //std::cout<<"Path is "<<path<<std::endl;
-path = mozpath + "/.mozilla/firefox/why.kek";
+path = mozpath + "\\.mozilla\\firefox\\why.kek";
+#else
+ mozpath = getenv("HOME");
+ path=mozpath + "/.mozilla/firefox/why.kek";
+
+#endif // _WIN32
  std::ifstream File(path);
  if(File.is_open())
   {
@@ -242,7 +268,12 @@ path = mozpath + "/.mozilla/firefox/why.kek";
     //std::cout<<"buf is: "<<std::endl;
     //std::cout<<buf<<std::endl;
     token(buf);
-    Profile_Loc = mozpath + "/.mozilla/firefox/" + tokens[2];
+    #ifdef _WIN32
+    Profile_Loc = mozpath + "\\Mozilla\\Firefox\\Profiles\\" + tokens[2];
+
+    #else
+    Profile_Loc = mozpath +"/.mozilla/firefox/" + tokens[2];
+    #endif
     //std::cout<<"PROFILE_LOC: "<<Profile_Loc<<std::endl;
     return true;
   }
@@ -470,6 +501,7 @@ void piperdaemon::cmdExecute()
  {
 
   Save_Lastcommand();
+  //put a ifdef here however need to find the environment varible for progfiles
     Command = "/usr/bin/" + tokens[0];
    // Command = tokens[0] +" "+ tokens[1];
     syslog(LOG_USER,"%s",Command.c_str());
@@ -492,7 +524,11 @@ void piperdaemon::sigint_handler(int sig)
 
 void piperdaemon::save_pid(long IDpid)
 {
+#ifdef _WIN32
+ std::string save = setting + "\\pid";
+ #else
  std::string save = setting + "/pid";
+ #endif
  std::ofstream file(save);
 file<<IDpid;
 file.close();
