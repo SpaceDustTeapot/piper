@@ -14,7 +14,7 @@ using namespace std;
 
 void innit_log()
 {
- openlog("piper-d",LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
+// openlog("piper-d",LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
 
 }
 
@@ -71,8 +71,8 @@ innit_log();
     //close(STDERR_FILENO);
 
 
-    syslog(LOG_USER,"%s","starting piper-d");
-
+ //   syslog(LOG_USER,"%s","starting piper-d");
+std::cout<<"Starting piper-d"<<std::endl;
     //infinanted daemon loop
 
 //    while(1)
