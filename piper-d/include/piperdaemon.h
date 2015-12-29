@@ -35,6 +35,7 @@ class piperdaemon
        bool Save_Lastcommand();
        bool cmp_tokes();
        void save_pid(long IDpid);
+       bool findmoz_ini();
 
     protected:
     private:

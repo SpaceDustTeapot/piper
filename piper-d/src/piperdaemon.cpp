@@ -285,17 +285,97 @@ path = mozpath + "\\.mozilla\\firefox\\why.kek";
     Profile_Loc = mozpath +"/.mozilla/firefox/" + tokens[2];
     #endif
     //std::cout<<"PROFILE_LOC: "<<Profile_Loc<<std::endl;
+    File.close();
     return true;
   }
   else
   {
   // std::cout<<"it doesn't work :^)"<<std::endl;
   //syslog(LOG_USER,"%s","Didn't find why.kek, returning 1");
-  std::cout<<"Didn't find why.kek, returning 1"<<std::endl;
-  }
   File.close();
+  std::cout<<"Didn't find why.kek, returning 1"<<std::endl;
+  std::cout<<"Gunna try and find profile.ini"<<std::endl;
+  bool flag = findmoz_ini();
+     if(flag == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+  }
   return 1;
 
+}
+
+bool piperdaemon::findmoz_ini()
+{
+  #ifdef _WIN32
+  #else
+std::string moz = getenv("HOME");
+ std::string path = moz + "/.mozilla/firefox/profiles.ini";
+  #endif
+
+  std::ifstream file(path);
+  char c;
+  std::string buf = "";
+
+  if(file.is_open())
+  {
+    std::cout<<"profile.ini oppened"<<std::endl;
+
+    while(file.get(c))
+    {
+     buf = buf + c;
+
+    }
+
+    size_t len = buf.length();
+     std::string foundprofile ="";
+    for(size_t i =0; i<len;i++)
+    {
+      std::string temp = buf.substr(i,12);
+
+      if(temp == "Name=default")
+      {
+       //default name
+        std::cout<<"Found Name=def: "<<temp<<std::endl;
+        for(size_t k =0; k<len;k++)
+        {
+         std::string temp2 = buf.substr(k,4);
+         if(temp2 == "Path")
+         {
+          size_t newstart = k + 5;
+          size_t l = len - newstart;
+          l = l -1;
+         foundprofile = buf.substr(newstart,l);
+           std::cout<<foundprofile<<std::endl;
+         }
+
+        }
+
+      }
+
+    }
+std::string opath = moz + "/.mozilla/firefox/why.kek";
+    std::ofstream Ofile(opath);
+//    Ofile<<"#Place profile Below#\n";
+  //  Ofile<<"PROFILE = "<<foundprofile;
+  //WEIRD FUCKING BUGG THAT DROPS a newline after output...even in binary mode
+    Ofile<<"#Place profile Below#"<<std::endl;
+    Ofile<<"PROFILE = "<<foundprofile;
+    file.close();
+    Ofile.close();
+
+  return true;
+  }
+  else
+  {
+   std::cout<<"PROFILES.INI NOT FOUND"<<std::endl;
+   return false;
+  }
+  return false;
 }
 
 std::string piperdaemon::token(std::string str)
