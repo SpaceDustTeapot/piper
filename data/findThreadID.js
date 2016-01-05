@@ -5,30 +5,30 @@ exports.findThreadID = function (TabID)
   var ltemp; 
 // console.log("Before for LOOP:findThreadID");
 // console.log("Len" + Len);
- for(var i=0;i<Len;i++)
-{
-  // console.log("IN LOOP");
-   ltemp = TabID.substr(i,3);
-   if(ltemp == "res")
-   {
- //  console.log("IN IF Statement");
-     i = i + 4;
-    //should be numbers
-   //  console.log(TabID.substr(i,3));
-    for(var k=i;k<Len;k++)
-    {
-      var findDot = TabID.substr(k,1);
-      if("." == findDot)
-      {
-	var Diff = k - i;
+	 for(var i=0;i<Len;i++)
+	{
+ 		 // console.log("IN LOOP");
+  		 ltemp = TabID.substr(i,3);
+   		if(ltemp == "res")
+  		 {
+		 //  console.log("IN IF Statement");
+    		 i = i + 4;
+    		//should be numbers
+   		//  console.log(TabID.substr(i,3));
+		   	 for(var k=i;k<Len;k++)
+   			 {
+     			 var findDot = TabID.substr(k,1);
+     				 if("." == findDot)
+     		 		{
+					var Diff = k - i;
 
-      }
-    }
-     //console.log("THREADID? "+ TabID.substr(i,Diff));
-     return TabID.substr(i,Diff);
-   }
+				 }
+   			 }
+    			 //console.log("THREADID? "+ TabID.substr(i,Diff));
+  		   return TabID.substr(i,Diff);
+  		 }
 
-}
+	}
 
 }
 
@@ -116,6 +116,28 @@ exports.WhatIsTab = function(TabID)
 	    }
 	 }
     }
+  }
+  else if(temp == ".be")
+  {
+	for(var k=0;k<Len;k++)
+	{
+		var chk = TabID.substr(k,9);
+		if(chk == "youtu.be/")
+		{         
+			return 3;
+		}
+  	}
+  }
+  else if(temp == ".tv")
+  {
+	for(var k=0;k<Len;k++)
+	{
+  		 var chk = TabID.substr(k,9);
+		if(chk == "twitch.tv")
+		{
+			return 3;
+		}
+ 	}
   }
 
  }

