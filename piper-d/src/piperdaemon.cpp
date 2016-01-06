@@ -1,4 +1,4 @@
-/* 
+/*
    This file is part of Piper-d.
 
     Piper-d is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with Piper-d.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../include/piperdaemon.h"
 
@@ -628,6 +628,29 @@ void piperdaemon::cmdExecute()
 //  execl(Command.c_str(),tokens[1].c_str());
   // execle(Command.c_str(),tokens[0].c_str(),tokens[1].c_str(),NULL,getenv("DISPLAY"));
    execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
+ }
+ else if(tokens[0] == "youtube-dl")
+ {
+    std::string enviro = getenv("HOME");
+    enviro = "'" + enviro + "/Videos/%(uploader)s/%(title)s-%(id)s.%(ext)s'";
+    std::cout<<enviro<<std::endl;
+    Save_Lastcommand();
+  //put a ifdef here however need to find the environment varible for progfiles
+    Command = "/usr/local/bin/" + tokens[0];
+   // Command = tokens[0] +" "+ tokens[1];
+    //syslog(LOG_USER,"%s",Command.c_str());
+    //syslog(LOG_USER,"%s",tokens[1].c_str());
+    std::cout<<Command<<std::endl;
+    std::cout<<tokens[1]<<std::endl;
+    std::string actcommand = Command + " -o "+ enviro + " " +tokens[1];
+    std::cout<<"Actcommand: "<<actcommand<<std::endl;
+    //+ " " + tokens[1];
+   // std::system(Command.c_str());
+  //  putenv("DISPLAY=:0");
+//  execl(Command.c_str(),tokens[1].c_str());
+  // execle(Command.c_str(),tokens[0].c_str(),tokens[1].c_str(),NULL,getenv("DISPLAY"));
+ //  execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
+    system(actcommand.c_str());
  }
 }
 

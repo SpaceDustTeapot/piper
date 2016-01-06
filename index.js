@@ -11,7 +11,7 @@
 //    GNU General Public License for more details.
 
 //    You should have received a copy of the GNU General Public License
-//    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+//    along with Piper.  If not, see <http://www.gnu.org/licenses/>.
 
 var{Cu,Cc,Ci} = require("chrome");
 
@@ -45,6 +45,7 @@ var tabs = require("sdk/tabs");
 //declare PageMod Allows us to much arround with the pagecontent
 var pageMod = require("sdk/page-mod");
 var ebin = require("sdk/context-menu");
+var ytdl = require("sdk/context-menu");
 var self = require("sdk/self");
 //declare worker
 var worker = require("sdk/content/worker");
@@ -60,6 +61,72 @@ include: "*.net",
 
 
 });
+
+ytdl.Item({
+	label:"Download Video",
+	context: ytdl.SelectorContext("a[href]"),
+	contentScript: 'self.on("click",function(node){' +
+	                ' var linkle = document.links;' +
+                        ' console.log("namespacehtmllink" + node.href);' +
+                        ' console.log(linkle[0].href);' +
+                        ' var ebini = node.textContent; ' +
+                        ' console.log(ebini);' +
+                //      ' for(var i =0;i<=linkle.length;i++) ' +
+                //      ' { '   +
+                //      ' console.log(i + ":" + linkle[i].href); ' +
+                //      ' } ' +
+                        ' self.postMessage(node.href);' +
+                        ' return true;'+
+                        ' });',
+	onMessage: function(linksauce)
+	{
+		console.log("Linksauce is:" + linksauce);
+		 var returned_val = findthr.WhatIsTab(linksauce);
+ 			if(returned_val == 0)
+  			{
+   			//console.log("Either error or not one of the acceptable sites");
+			//alert("Error or Not an acceptable site");
+  			}
+ 			else if(returned_val == 1)
+  			{
+				//do something
+			 	var ostream  = FileUtils.openSafeFileOutputStream(file);  
+ 				console.log("valid youtube URL");
+  			 	//TODO: CHANGE mpv if settings isn't mpv
+  				var cmd_string = "youtube-dl " + linksauce;
+  				//Push cmd_string to a file
+  				console.log("What is CMD_String? " + cmd_string);
+ 	 			var cdstring = converter.convertToInputStream(cmd_string);
+				 // cdstring.available();
+  				//console.log("And CD string? " + cdstring);
+ 			 	writer.writeToFile(cdstring,ostream,NetUtil);  
+ 				// cdstring.close();
+			
+  			}
+			 else if(returned_val == 2)
+ 			{
+
+ 			}
+	 		else if(returned_val == 3)
+ 			{
+ 			 var ostream  = FileUtils.openSafeFileOutputStream(file);  
+ 			console.log("valid youtube URL");
+  			 //TODO: CHANGE mpv if settings isn't mpv
+  			var cmd_string = "youtube-dl " + linksauce;
+  			//Push cmd_string to a file
+  			console.log("What is CMD_String? " + cmd_string);
+ 	 		var cdstring = converter.convertToInputStream(cmd_string);
+			 // cdstring.available();
+  			//console.log("And CD string? " + cdstring);
+ 			 writer.writeToFile(cdstring,ostream,NetUtil);  
+ 			// cdstring.close();
+ 
+		 	}
+	}
+		
+	
+});
+
 
 ebin.Item({
 	label:"Pipe to mediaplayer",

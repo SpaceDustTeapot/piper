@@ -3,17 +3,17 @@
 	<ActiveTarget name="Debug" />
 	<File name="src/piperdaemon.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="634" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1354" topLine="68" />
+			<Cursor1 position="14023" topLine="628" />
 		</Cursor>
 	</File>
 	<File name="include/piperdaemon.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1457" topLine="38" />
+			<Cursor1 position="627" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2032" topLine="86" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
