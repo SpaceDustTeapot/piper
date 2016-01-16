@@ -652,6 +652,24 @@ void piperdaemon::cmdExecute()
  //  execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
     system(actcommand.c_str());
  }
+ else if(tokens[0] == "vlc")
+ {
+    Save_Lastcommand();
+  //put a ifdef here however need to find the environment varible for progfiles
+    Command = "/usr/bin/" + tokens[0];
+   // Command = tokens[0] +" "+ tokens[1];
+    //syslog(LOG_USER,"%s",Command.c_str());
+    //syslog(LOG_USER,"%s",tokens[1].c_str());
+    std::cout<<Command<<std::endl;
+    std::cout<<tokens[1]<<std::endl;
+    //+ " " + tokens[1];
+   // std::system(Command.c_str());
+  //  putenv("DISPLAY=:0");
+//  execl(Command.c_str(),tokens[1].c_str());
+  // execle(Command.c_str(),tokens[0].c_str(),tokens[1].c_str(),NULL,getenv("DISPLAY"));
+   execl(Command.c_str(),Command.c_str(),tokens[1].c_str(),NULL);
+
+ }
 }
 
 void piperdaemon::sigint_handler(int sig)

@@ -23,6 +23,17 @@ converter.charset = "UTF-8";
 var file = FileUtils.getFile("ProfD",["data.txt"]);
 //var ostream  = FileUtils.openSafeFileOutputStream(file);
 
+//declare cmd_string as global
+var mppref = require('sdk/simple-prefs').prefs['mploc'];
+
+function onPrefChange(prefValue) {
+   console.log("The Preference has changed " + prefValue + " value can this work? " + prefValue.value);
+mppref = require('sdk/simple-prefs').prefs['mploc'];
+
+}
+
+require("sdk/simple-prefs").on('mploc',onPrefChange);
+
 //writer
 var writer = require("./data/writeFile.js");
 
@@ -112,7 +123,8 @@ ytdl.Item({
  			 var ostream  = FileUtils.openSafeFileOutputStream(file);  
  			console.log("valid youtube URL");
   			 //TODO: CHANGE mpv if settings isn't mpv
-  			var cmd_string = "youtube-dl " + linksauce;
+			//make cmd_string a global;
+  			 var cmd_string = "youtube-dl " + linksauce;
   			//Push cmd_string to a file
   			console.log("What is CMD_String? " + cmd_string);
  	 		var cdstring = converter.convertToInputStream(cmd_string);
@@ -161,8 +173,9 @@ ebin.Item({
 			 	var ostream  = FileUtils.openSafeFileOutputStream(file);  
  				console.log("valid youtube URL");
   			 	//TODO: CHANGE mpv if settings isn't mpv
-  				var cmd_string = "mpv " + linksauce;
-  				//Push cmd_string to a file
+  			//	var cmd_string = "mpv " + linksauce;
+  				var cmd_string = mppref +" "+ linksauce;
+				//Push cmd_string to a file
   				console.log("What is CMD_String? " + cmd_string);
  	 			var cdstring = converter.convertToInputStream(cmd_string);
 				 // cdstring.available();
@@ -180,8 +193,9 @@ ebin.Item({
  			 var ostream  = FileUtils.openSafeFileOutputStream(file);  
  			console.log("valid youtube URL");
   			 //TODO: CHANGE mpv if settings isn't mpv
-  			var cmd_string = "mpv " + linksauce;
-  			//Push cmd_string to a file
+  		//	var cmd_string = "mpv " + linksauce;
+  			var cmd_string = mppref +" "+linksauce;
+			//Push cmd_string to a file
   			console.log("What is CMD_String? " + cmd_string);
  	 		var cdstring = converter.convertToInputStream(cmd_string);
 			 // cdstring.available();

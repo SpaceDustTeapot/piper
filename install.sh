@@ -13,11 +13,11 @@
 #    GNU General Public License for more details.
 
 #    You should have received a copy of the GNU General Public License
-#    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#    along with Piper.  If not, see <http://www.gnu.org/licenses/>.
 
  
 sudo cp chear/bin/Debug/chear /usr/local/bin
 sudo cp piper-d/bin/Debug/piper-d /usr/local/bin
 
 #Crontab shit needs to go below
-Cronbk >> crontab -e
+crontab -e < Cronbk

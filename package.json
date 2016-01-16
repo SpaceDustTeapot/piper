@@ -8,13 +8,13 @@
   "engines": {
     "firefox": ">=38.0a1"
   },
-  "license": "GPLv2",
+  "license": "GPLv3",
   "keywords": [
     "jetpack"
   ],
  
  "preferences": [{
-        "name": "Media Player Location",
+        "name": "mploc",
         "title": "Media Player Location",
         "description": "location of choosen mediaplayer that opens the video",
         "type": "string",
